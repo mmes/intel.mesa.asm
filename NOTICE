@@ -1,0 +1,31 @@
+Parts of this project are derived from Mesa (https://mesa3d.org), which is
+distributed under the MIT license reproduced below.
+
+  test/corpus/mesa/         copied from src/intel/compiler/gen/tests/
+  data/opcodes.json         generated from src/intel/compiler/gen/gen_opcodes.py
+  src/hover/lsc.ts          send descriptor decoding, after gen_encoding.cpp,
+                            gen_print.cpp and gen_names.c
+  src/analysis/pipes.ts     pipe assignment, after
+                            src/intel/compiler/brw/brw_lower_scoreboard.cpp
+  src/format/align.ts       column positions, after gen_print.cpp
+
+Copyright © Intel Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice (including the next
+paragraph) shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.

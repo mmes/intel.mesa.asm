@@ -1,0 +1,1019 @@
+{
+ "mesa_commit": "d3d09b842413c4267c2b9fa3a6c4bc3179ee7ffc",
+ "opcodes": [
+  {
+   "name": "illegal",
+   "format": "illegal",
+   "sources": 0,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 0,
+    "xe": 0,
+    "xe2": 0,
+    "xe3p": 0,
+    "xe3p_64bit": 0
+   }
+  },
+  {
+   "name": "bfrev",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 23,
+    "xe": 119,
+    "xe2": 119,
+    "xe3p": 119,
+    "xe3p_64bit": 119
+   }
+  },
+  {
+   "name": "cbit",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 77,
+    "xe": 77,
+    "xe2": 77,
+    "xe3p": 77,
+    "xe3p_64bit": 77
+   }
+  },
+  {
+   "name": "fbh",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 75,
+    "xe": 75,
+    "xe2": 75,
+    "xe3p": 75,
+    "xe3p_64bit": 75
+   }
+  },
+  {
+   "name": "fbl",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 76,
+    "xe": 76,
+    "xe2": 76,
+    "xe3p": 76,
+    "xe3p_64bit": 76
+   }
+  },
+  {
+   "name": "frc",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 67,
+    "xe": 67,
+    "xe2": 67,
+    "xe3p": 67,
+    "xe3p_64bit": 67
+   }
+  },
+  {
+   "name": "lzd",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 74,
+    "xe": 74,
+    "xe2": 74,
+    "xe3p": 74,
+    "xe3p_64bit": 74
+   }
+  },
+  {
+   "name": "mov",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 1,
+    "xe": 97,
+    "xe2": 97,
+    "xe3p": 97,
+    "xe3p_64bit": 97
+   }
+  },
+  {
+   "name": "not",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 4,
+    "xe": 100,
+    "xe2": 100,
+    "xe3p": 100,
+    "xe3p_64bit": 100
+   }
+  },
+  {
+   "name": "rndd",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 69,
+    "xe": 69,
+    "xe2": 69,
+    "xe3p": 69,
+    "xe3p_64bit": 69
+   }
+  },
+  {
+   "name": "rnde",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 70,
+    "xe": 70,
+    "xe2": 70,
+    "xe3p": 70,
+    "xe3p_64bit": 70
+   }
+  },
+  {
+   "name": "rndu",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 68,
+    "xe": 68,
+    "xe2": 68,
+    "xe3p": 68,
+    "xe3p_64bit": 68
+   }
+  },
+  {
+   "name": "rndz",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 71,
+    "xe": 71,
+    "xe2": 71,
+    "xe3p": 71,
+    "xe3p_64bit": 71
+   }
+  },
+  {
+   "name": "sync",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": 1,
+    "xe2": 1,
+    "xe3p": 1,
+    "xe3p_64bit": 1
+   }
+  },
+  {
+   "name": "wait",
+   "format": "basic_one_src",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 48,
+    "xe": 48,
+    "xe2": 48,
+    "xe3p": 48,
+    "xe3p_64bit": 48
+   }
+  },
+  {
+   "name": "add",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 64,
+    "xe": 64,
+    "xe2": 64,
+    "xe3p": 64,
+    "xe3p_64bit": 64
+   }
+  },
+  {
+   "name": "addc",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 78,
+    "xe": 78,
+    "xe2": 78,
+    "xe3p": 78,
+    "xe3p_64bit": 78
+   }
+  },
+  {
+   "name": "and",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 5,
+    "xe": 101,
+    "xe2": 101,
+    "xe3p": 101,
+    "xe3p_64bit": 101
+   }
+  },
+  {
+   "name": "asr",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 12,
+    "xe": 108,
+    "xe2": 108,
+    "xe3p": 108,
+    "xe3p_64bit": 108
+   }
+  },
+  {
+   "name": "avg",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 66,
+    "xe": 66,
+    "xe2": 66,
+    "xe3p": 66,
+    "xe3p_64bit": 66
+   }
+  },
+  {
+   "name": "bfi1",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 25,
+    "xe": 121,
+    "xe2": 121,
+    "xe3p": 121,
+    "xe3p_64bit": 121
+   }
+  },
+  {
+   "name": "cmp",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 16,
+    "xe": 112,
+    "xe2": 112,
+    "xe3p": 112,
+    "xe3p_64bit": 112
+   }
+  },
+  {
+   "name": "cmpn",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 17,
+    "xe": 113,
+    "xe2": 113,
+    "xe3p": 113,
+    "xe3p_64bit": 113
+   }
+  },
+  {
+   "name": "dp2",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 87,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "dp3",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 86,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "dp4",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 84,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "dph",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 85,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "line",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 89,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "mac",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 72,
+    "xe": 72,
+    "xe2": 72,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "mach",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 73,
+    "xe": 73,
+    "xe2": 73,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "macl",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": null,
+    "xe2": 83,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "math",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 56,
+    "xe": 56,
+    "xe2": 56,
+    "xe3p": 56,
+    "xe3p_64bit": 56
+   }
+  },
+  {
+   "name": "movi",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 3,
+    "xe": 99,
+    "xe2": 99,
+    "xe3p": 99,
+    "xe3p_64bit": 99
+   }
+  },
+  {
+   "name": "mul",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 65,
+    "xe": 65,
+    "xe2": 65,
+    "xe3p": 65,
+    "xe3p_64bit": 65
+   }
+  },
+  {
+   "name": "mullh",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": null,
+    "xe2": null,
+    "xe3p": 95,
+    "xe3p_64bit": 95
+   }
+  },
+  {
+   "name": "or",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 6,
+    "xe": 102,
+    "xe2": 102,
+    "xe3p": 102,
+    "xe3p_64bit": 102
+   }
+  },
+  {
+   "name": "pln",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 90,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "rol",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 15,
+    "xe": 111,
+    "xe2": 111,
+    "xe3p": 111,
+    "xe3p_64bit": 111
+   }
+  },
+  {
+   "name": "ror",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 14,
+    "xe": 110,
+    "xe2": 110,
+    "xe3p": 110,
+    "xe3p_64bit": 110
+   }
+  },
+  {
+   "name": "sel",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 2,
+    "xe": 98,
+    "xe2": 98,
+    "xe3p": 98,
+    "xe3p_64bit": 98
+   }
+  },
+  {
+   "name": "shl",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 9,
+    "xe": 105,
+    "xe2": 105,
+    "xe3p": 105,
+    "xe3p_64bit": 105
+   }
+  },
+  {
+   "name": "shr",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 8,
+    "xe": 104,
+    "xe2": 104,
+    "xe3p": 104,
+    "xe3p_64bit": 104
+   }
+  },
+  {
+   "name": "smov",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 10,
+    "xe": 106,
+    "xe2": 106,
+    "xe3p": 106,
+    "xe3p_64bit": 106
+   }
+  },
+  {
+   "name": "srnd",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": null,
+    "xe2": 84,
+    "xe3p": 84,
+    "xe3p_64bit": 84
+   }
+  },
+  {
+   "name": "subb",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 79,
+    "xe": 79,
+    "xe2": 79,
+    "xe3p": 79,
+    "xe3p_64bit": 79
+   }
+  },
+  {
+   "name": "xor",
+   "format": "basic_two_src",
+   "sources": 2,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 7,
+    "xe": 103,
+    "xe2": 103,
+    "xe3p": 103,
+    "xe3p_64bit": 103
+   }
+  },
+  {
+   "name": "add3",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": 82,
+    "xe2": 82,
+    "xe3p": 82,
+    "xe3p_64bit": 82
+   }
+  },
+  {
+   "name": "bfe",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 24,
+    "xe": 120,
+    "xe2": 120,
+    "xe3p": 120,
+    "xe3p_64bit": 120
+   }
+  },
+  {
+   "name": "bfi2",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 26,
+    "xe": 122,
+    "xe2": 122,
+    "xe3p": 122,
+    "xe3p_64bit": 122
+   }
+  },
+  {
+   "name": "bfn",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": 107,
+    "xe2": 107,
+    "xe3p": 107,
+    "xe3p_64bit": 107
+   }
+  },
+  {
+   "name": "csel",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 18,
+    "xe": 114,
+    "xe2": 114,
+    "xe3p": 114,
+    "xe3p_64bit": 114
+   }
+  },
+  {
+   "name": "dp4a",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": 88,
+    "xe2": 88,
+    "xe3p": 88,
+    "xe3p_64bit": 88
+   }
+  },
+  {
+   "name": "lrp",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 92,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "mad",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 91,
+    "xe": 91,
+    "xe2": 91,
+    "xe3p": 91,
+    "xe3p_64bit": 91
+   }
+  },
+  {
+   "name": "madm",
+   "format": "basic_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 93,
+    "xe": 93,
+    "xe2": 93,
+    "xe3p": 93,
+    "xe3p_64bit": 93
+   }
+  },
+  {
+   "name": "dpas",
+   "format": "dpas_three_src",
+   "sources": 3,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": 89,
+    "xe2": 89,
+    "xe3p": 89,
+    "xe3p_64bit": 89
+   }
+  },
+  {
+   "name": "send",
+   "format": "send",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 49,
+    "xe": 49,
+    "xe2": 49,
+    "xe3p": 49,
+    "xe3p_64bit": 49
+   }
+  },
+  {
+   "name": "sendc",
+   "format": "send",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 50,
+    "xe": 50,
+    "xe2": 50,
+    "xe3p": 50,
+    "xe3p_64bit": 50
+   }
+  },
+  {
+   "name": "sendg",
+   "format": "send",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": 51
+   }
+  },
+  {
+   "name": "sendgc",
+   "format": "send",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": null,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": 52
+   }
+  },
+  {
+   "name": "sends",
+   "format": "send",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 51,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "sendsc",
+   "format": "send",
+   "sources": 1,
+   "has_dst": true,
+   "hw_opcode": {
+    "pre_xe": 52,
+    "xe": null,
+    "xe2": null,
+    "xe3p": null,
+    "xe3p_64bit": null
+   }
+  },
+  {
+   "name": "brd",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 33,
+    "xe": 33,
+    "xe2": 33,
+    "xe3p": 33,
+    "xe3p_64bit": 33
+   }
+  },
+  {
+   "name": "call",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 44,
+    "xe": 44,
+    "xe2": 44,
+    "xe3p": 44,
+    "xe3p_64bit": 44
+   }
+  },
+  {
+   "name": "calla",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 43,
+    "xe": 43,
+    "xe2": 43,
+    "xe3p": 43,
+    "xe3p_64bit": 43
+   }
+  },
+  {
+   "name": "endif",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 37,
+    "xe": 37,
+    "xe2": 37,
+    "xe3p": 37,
+    "xe3p_64bit": 37
+   }
+  },
+  {
+   "name": "jmpi",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 32,
+    "xe": 32,
+    "xe2": 32,
+    "xe3p": 32,
+    "xe3p_64bit": 32
+   }
+  },
+  {
+   "name": "join",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 47,
+    "xe": 47,
+    "xe2": 47,
+    "xe3p": 47,
+    "xe3p_64bit": 47
+   }
+  },
+  {
+   "name": "ret",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 45,
+    "xe": 45,
+    "xe2": 45,
+    "xe3p": 45,
+    "xe3p_64bit": 45
+   }
+  },
+  {
+   "name": "while",
+   "format": "branch_one_src",
+   "sources": 1,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 39,
+    "xe": 39,
+    "xe2": 39,
+    "xe3p": 39,
+    "xe3p_64bit": 39
+   }
+  },
+  {
+   "name": "brc",
+   "format": "branch_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 35,
+    "xe": 35,
+    "xe2": 35,
+    "xe3p": 35,
+    "xe3p_64bit": 35
+   }
+  },
+  {
+   "name": "break",
+   "format": "branch_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 40,
+    "xe": 40,
+    "xe2": 40,
+    "xe3p": 40,
+    "xe3p_64bit": 40
+   }
+  },
+  {
+   "name": "continue",
+   "format": "branch_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 41,
+    "xe": 41,
+    "xe2": 41,
+    "xe3p": 41,
+    "xe3p_64bit": 41
+   }
+  },
+  {
+   "name": "else",
+   "format": "branch_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 36,
+    "xe": 36,
+    "xe2": 36,
+    "xe3p": 36,
+    "xe3p_64bit": 36
+   }
+  },
+  {
+   "name": "goto",
+   "format": "branch_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 46,
+    "xe": 46,
+    "xe2": 46,
+    "xe3p": 46,
+    "xe3p_64bit": 46
+   }
+  },
+  {
+   "name": "halt",
+   "format": "branch_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 42,
+    "xe": 42,
+    "xe2": 42,
+    "xe3p": 42,
+    "xe3p_64bit": 42
+   }
+  },
+  {
+   "name": "if",
+   "format": "branch_two_src",
+   "sources": 2,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 34,
+    "xe": 34,
+    "xe2": 34,
+    "xe3p": 34,
+    "xe3p_64bit": 34
+   }
+  },
+  {
+   "name": "nop",
+   "format": "nop",
+   "sources": 0,
+   "has_dst": false,
+   "hw_opcode": {
+    "pre_xe": 126,
+    "xe": 96,
+    "xe2": 96,
+    "xe3p": 96,
+    "xe3p_64bit": 96
+   }
+  }
+ ]
+}

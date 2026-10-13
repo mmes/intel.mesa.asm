@@ -1,0 +1,342 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Intel EU Assembly (Mesa)",
+  "scopeName": "source.intel-eu-asm",
+  "patterns": [
+    {
+      "include": "#shader-header"
+    },
+    {
+      "include": "#stats-line"
+    },
+    {
+      "include": "#validator-error"
+    },
+    {
+      "include": "#label-definition"
+    },
+    {
+      "include": "#comment-line"
+    },
+    {
+      "include": "#instruction-line"
+    }
+  ],
+  "repository": {
+    "shader-header": {
+      "match": "^Native code for .*$",
+      "name": "markup.heading.shader.intel-eu-asm"
+    },
+    "stats-line": {
+      "begin": "^(?=(?:[A-Z]+ )?SIMD\\d+ shader: )",
+      "end": "$",
+      "name": "meta.stats.intel-eu-asm",
+      "patterns": [
+        {
+          "match": "\\G(?:[A-Z]+ )?SIMD\\d+ shader:",
+          "name": "markup.bold.stats.intel-eu-asm"
+        },
+        {
+          "match": "(?<![\\w.])\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?\\b",
+          "name": "constant.numeric.stats.intel-eu-asm"
+        }
+      ]
+    },
+    "validator-error": {
+      "match": "^\\s*ERROR: .*$",
+      "name": "invalid.illegal.validator-error.intel-eu-asm"
+    },
+    "label-definition": {
+      "match": "^(L\\d+)(:)\\s*(//.*)?$",
+      "captures": {
+        "1": {
+          "name": "entity.name.label.definition.intel-eu-asm"
+        },
+        "2": {
+          "name": "punctuation.separator.label.intel-eu-asm"
+        },
+        "3": {
+          "name": "comment.line.double-slash.intel-eu-asm"
+        }
+      }
+    },
+    "comment-line": {
+      "match": "^\\s*//.*$",
+      "name": "comment.line.double-slash.intel-eu-asm"
+    },
+    "instruction-line": {
+      "begin": "^(?:([a-z][a-z0-9]{2}) (\\|) ((?:[0-9a-f]{2} )+)([|<>])|((?:[0-9a-f]{2} ){8,16}))?(?=\\s*(?:\\((?:W|~?f\\d)[^)]*\\)\\s+)?(?:nop\\s*(?:\\{|//|$)|[a-z][a-z0-9_]*(?:\\.\\([^)]*\\)|\\.[\\w\\[\\].+]+)*\\s+\\(\\d+(?:\\|M\\d+)?\\)))",
+      "beginCaptures": {
+        "1": {
+          "name": "entity.name.namespace.platform.intel-eu-asm"
+        },
+        "2": {
+          "name": "punctuation.separator.case.intel-eu-asm"
+        },
+        "3": {
+          "name": "comment.block.bytes.intel-eu-asm"
+        },
+        "4": {
+          "name": "punctuation.separator.case.intel-eu-asm"
+        },
+        "5": {
+          "name": "comment.block.bytes.intel-eu-asm"
+        }
+      },
+      "end": "$",
+      "name": "meta.instruction.intel-eu-asm",
+      "patterns": [
+        {
+          "include": "#trailing-comment"
+        },
+        {
+          "include": "#options"
+        },
+        {
+          "include": "#predicate"
+        },
+        {
+          "include": "#cmod"
+        },
+        {
+          "include": "#exec-size"
+        },
+        {
+          "include": "#opcode"
+        },
+        {
+          "include": "#branch-target"
+        },
+        {
+          "include": "#register"
+        },
+        {
+          "include": "#type"
+        },
+        {
+          "include": "#region"
+        },
+        {
+          "include": "#source-modifier"
+        },
+        {
+          "include": "#immediate"
+        }
+      ]
+    },
+    "trailing-comment": {
+      "match": "//.*$",
+      "name": "comment.line.double-slash.intel-eu-asm"
+    },
+    "options": {
+      "begin": "\\{",
+      "end": "\\}|$",
+      "name": "meta.options.intel-eu-asm",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.options.begin.intel-eu-asm"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.options.end.intel-eu-asm"
+        }
+      },
+      "patterns": [
+        {
+          "match": "[FILMSA]?@\\d+",
+          "name": "entity.name.tag.swsb.regdist.intel-eu-asm"
+        },
+        {
+          "match": "\\$\\d+(?:\\.(?:dst|src))?",
+          "name": "entity.name.tag.swsb.token.intel-eu-asm"
+        },
+        {
+          "match": "[A-Za-z][A-Za-z0-9]*",
+          "name": "storage.modifier.option.intel-eu-asm"
+        },
+        {
+          "match": ",",
+          "name": "punctuation.separator.options.intel-eu-asm"
+        }
+      ]
+    },
+    "predicate": {
+      "match": "\\((?=[W~f])(W)?(&)?(~)?(?:(f\\d\\.\\d)((?:\\.[a-z0-9]+)?))?\\)",
+      "name": "keyword.other.predicate.intel-eu-asm",
+      "captures": {
+        "4": {
+          "name": "variable.language.register.flag.intel-eu-asm"
+        }
+      }
+    },
+    "cmod": {
+      "match": "\\((eq|ne|gt|ge|lt|le|ov|un)\\)(f\\d\\.\\d)?",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.cmod.intel-eu-asm"
+        },
+        "2": {
+          "name": "variable.language.register.flag.intel-eu-asm"
+        }
+      }
+    },
+    "exec-size": {
+      "match": "\\(\\d+(?:\\|M\\d+)?\\)",
+      "name": "constant.numeric.exec-size.intel-eu-asm"
+    },
+    "opcode": {
+      "patterns": [
+        {
+          "match": "(?<![\\w.\\]])(if|else|endif|while|break|continue|halt|join|jmpi|goto|call|calla|ret|brd|brc)((?:\\.[a-z0-9_]+)*)(?=\\s+\\(\\d+(?:\\|M\\d+)?\\))",
+          "captures": {
+            "1": {
+              "name": "keyword.control.intel-eu-asm"
+            },
+            "2": {
+              "name": "entity.name.function.opcode-suffix.intel-eu-asm"
+            }
+          }
+        },
+        {
+          "match": "(?<![\\w.\\]])(bfn)(\\.\\([^)]*\\))(?=\\s+\\(\\d+(?:\\|M\\d+)?\\))",
+          "captures": {
+            "1": {
+              "name": "keyword.mnemonic.intel-eu-asm"
+            },
+            "2": {
+              "name": "entity.name.function.opcode-suffix.intel-eu-asm"
+            }
+          }
+        },
+        {
+          "match": "(?<![\\w.\\]])(send[a-z]*|dpas|math|(?:load|store|atomic|fence)[a-z0-9_]*)((?:\\.[a-z0-9_]+|\\[[^\\]]*\\])*)(?=\\s+\\(\\d+(?:\\|M\\d+)?\\))",
+          "captures": {
+            "1": {
+              "name": "markup.bold.intel-eu-asm support.function.mnemonic.async.intel-eu-asm"
+            },
+            "2": {
+              "name": "entity.name.function.opcode-suffix.intel-eu-asm"
+            }
+          }
+        },
+        {
+          "match": "(?<![\\w.\\]])([a-z][a-z0-9_]*)((?:\\.[a-z0-9_]+|\\[[^\\]]*\\])*)(?=\\s+\\(\\d+(?:\\|M\\d+)?\\))",
+          "captures": {
+            "1": {
+              "name": "keyword.mnemonic.intel-eu-asm"
+            },
+            "2": {
+              "name": "entity.name.function.opcode-suffix.intel-eu-asm"
+            }
+          }
+        },
+        {
+          "match": "(?<![\\w.\\]])nop\\b",
+          "name": "keyword.mnemonic.intel-eu-asm"
+        }
+      ]
+    },
+    "branch-target": {
+      "patterns": [
+        {
+          "match": "\\b(jip|uip)(:)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.branch-field.intel-eu-asm"
+            },
+            "2": {
+              "name": "punctuation.separator.branch-field.intel-eu-asm"
+            }
+          }
+        },
+        {
+          "match": "\\bL\\d+\\b",
+          "name": "entity.name.label.reference.intel-eu-asm"
+        }
+      ]
+    },
+    "register": {
+      "patterns": [
+        {
+          "match": "(?<![\\w.])r(?=\\[)",
+          "name": "variable.other.register.indirect.intel-eu-asm"
+        },
+        {
+          "match": "(?<![\\w.])r\\d+(?:\\.\\d+)?\\b",
+          "name": "variable.other.register.grf.intel-eu-asm"
+        },
+        {
+          "match": "(?<![\\w.])(?:null|ip|tdr\\d*|(?:acc|a|f|mask|sr|cr|s|n|tm)\\d+(?:\\.\\d+)?)\\b",
+          "name": "variable.language.register.arf.intel-eu-asm"
+        }
+      ]
+    },
+    "type": {
+      "patterns": [
+        {
+          "match": "(:)(ub|uw|ud|uq|uv|hf|bf|df|vf|b|w|d|q|f|v)\\b",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.type.intel-eu-asm"
+            },
+            "2": {
+              "name": "entity.name.type.intel-eu-asm"
+            }
+          }
+        },
+        {
+          "match": ":(?=a\\d)",
+          "name": "punctuation.separator.ex-desc.intel-eu-asm"
+        },
+        {
+          "match": "(:)(\\d+)\\b",
+          "captures": {
+            "1": {
+              "name": "punctuation.separator.length.intel-eu-asm"
+            },
+            "2": {
+              "name": "constant.numeric.length.intel-eu-asm"
+            }
+          }
+        }
+      ]
+    },
+    "region": {
+      "patterns": [
+        {
+          "match": "<(?:\\d+|VxH)(?:;\\d+)?(?:,\\d+)?>",
+          "name": "string.other.region.intel-eu-asm"
+        },
+        {
+          "match": "(?<=>)\\.(?:[xyzw]{1,4}|r)\\b",
+          "name": "string.other.swizzle.intel-eu-asm"
+        }
+      ]
+    },
+    "source-modifier": {
+      "patterns": [
+        {
+          "match": "\\(abs\\)",
+          "name": "keyword.operator.source-modifier.intel-eu-asm"
+        },
+        {
+          "match": "(?<![\\w\\]])[-~](?=[a-z(])",
+          "name": "keyword.operator.source-modifier.intel-eu-asm"
+        }
+      ]
+    },
+    "immediate": {
+      "patterns": [
+        {
+          "match": "(?<![\\w.])-?0x[0-9A-Fa-f]+\\b",
+          "name": "constant.numeric.hex.intel-eu-asm"
+        },
+        {
+          "match": "(?<![\\w.])-?\\d+\\b",
+          "name": "constant.numeric.decimal.intel-eu-asm"
+        }
+      ]
+    }
+  }
+}

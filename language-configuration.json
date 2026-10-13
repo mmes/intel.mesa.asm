@@ -1,0 +1,11 @@
+{
+  "comments": {
+    "lineComment": "//"
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
+  "wordPattern": "\\$\\d+(\\.(dst|src))?|[FILMSA]@\\d+|-?0x[0-9A-Fa-f]+|[A-Za-z_][A-Za-z0-9_]*(\\.\\d+)?|-?\\d+"
+}

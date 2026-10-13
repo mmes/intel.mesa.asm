@@ -1,0 +1,235 @@
+{
+  "name": "intel-mesa-asm",
+  "displayName": "Intel EU Assembly (Mesa)",
+  "description": "Syntax colouring, navigation, column alignment, hover explanations and a gentool bridge for Intel GPU (EU) assembly dumps printed by Mesa's brw and jay back ends.",
+  "version": "0.6.1",
+  "type": "module",
+  "publisher": "mmes",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmes/intel.mesa.asm.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "intel-eu-asm",
+        "aliases": [
+          "Intel EU Assembly (Mesa)",
+          "intel-eu-asm"
+        ],
+        "extensions": [
+          ".euasm"
+        ],
+        "firstLine": "^Native code for ",
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "intel-eu-asm",
+        "scopeName": "source.intel-eu-asm",
+        "path": "./syntaxes/intel-eu-asm.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "Intel EU Assembly",
+      "properties": {
+        "intelEuAsm.generation": {
+          "type": "string",
+          "enum": [
+            "xe3p",
+            "xe3",
+            "xe2",
+            "xe-hpg",
+            "xe-lp"
+          ],
+          "default": "xe3",
+          "enumDescriptions": [
+            "Xe3P (gentool platform nvl): as Xe3, with converting moves to float run in the integer pipe.",
+            "Xe3 (ptl, nvl-u): 64-byte registers, scalar pipe.",
+            "Xe2 (lnl, bmg): 64-byte registers.",
+            "Xe-HPG (dg2, mtl, arl): 32-byte registers, separate float, integer and long pipes.",
+            "Xe-LP (tgl, rkl, dg1, adl, rpl): 32-byte registers, a single pipe."
+          ],
+          "description": "Which hardware generation a dump is from. A dump does not record its platform, and register size, send descriptor layout and the pipe each instruction runs in depend on it. Lines that name a platform, as in gentool case files, use that instead."
+        },
+        "intelEuAsm.format.columns": {
+          "type": "string",
+          "enum": [
+            "aligned",
+            "printer"
+          ],
+          "default": "aligned",
+          "enumDescriptions": [
+            "Widen columns until every instruction in a shader lines up.",
+            "Restore the fixed columns Mesa prints, including lines that overflow them."
+          ],
+          "description": "What Format Document does to an assembly dump. Only whitespace between fields is ever changed."
+        },
+        "intelEuAsm.format.maxOverflow": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 12,
+          "description": "A field that overflows its column by more than this many characters is left overflowing instead of widening the column for the whole shader."
+        },
+        "intelEuAsm.format.alignComments": {
+          "type": "boolean",
+          "default": true,
+          "description": "Line up the trailing // comments of send instructions."
+        },
+        "intelEuAsm.gentool.path": {
+          "type": "string",
+          "default": "",
+          "description": "Path to Mesa's gentool binary (src/intel/compiler/gen/gentool in a Mesa build directory). The command 'Intel EU Asm: Select gentool Binary…' sets this from a file dialog."
+        },
+        "intelEuAsm.gentool.platform": {
+          "type": "string",
+          "default": "",
+          "description": "Platform name to pass to gentool, such as nvl, ptl, bmg or mtl. Run 'gentool help platforms' for the list. When empty, one is chosen from intelEuAsm.generation."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[intel-eu-asm]": {
+        "editor.formatOnSave": false,
+        "editor.formatOnPaste": false,
+        "editor.formatOnType": false
+      }
+    },
+    "commands": [
+      {
+        "command": "intelEuAsm.gentool.check",
+        "title": "Check with gentool (Assemble and Validate)",
+        "category": "Intel EU Asm"
+      },
+      {
+        "command": "intelEuAsm.gentool.assembleToFile",
+        "title": "Assemble to Binary File…",
+        "category": "Intel EU Asm"
+      },
+      {
+        "command": "intelEuAsm.gentool.showVerbose",
+        "title": "Show Verbose Form Beside",
+        "category": "Intel EU Asm"
+      },
+      {
+        "command": "intelEuAsm.gentool.showTranslated",
+        "title": "Show Translated Sends Beside",
+        "category": "Intel EU Asm"
+      },
+      {
+        "command": "intelEuAsm.gentool.showHex",
+        "title": "Show with Encoded Bytes Beside",
+        "category": "Intel EU Asm"
+      },
+      {
+        "command": "intelEuAsm.gentool.showRegions",
+        "title": "Show Register Regions of Instruction",
+        "category": "Intel EU Asm"
+      },
+      {
+        "command": "intelEuAsm.gentool.disassembleFile",
+        "title": "Disassemble Binary File…",
+        "category": "Intel EU Asm"
+      },
+      {
+        "command": "intelEuAsm.gentool.select",
+        "title": "Select gentool Binary…",
+        "category": "Intel EU Asm"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "intelEuAsm.gentool.check",
+          "when": "editorLangId == intel-eu-asm"
+        },
+        {
+          "command": "intelEuAsm.gentool.assembleToFile",
+          "when": "editorLangId == intel-eu-asm"
+        },
+        {
+          "command": "intelEuAsm.gentool.showVerbose",
+          "when": "editorLangId == intel-eu-asm"
+        },
+        {
+          "command": "intelEuAsm.gentool.showTranslated",
+          "when": "editorLangId == intel-eu-asm"
+        },
+        {
+          "command": "intelEuAsm.gentool.showHex",
+          "when": "editorLangId == intel-eu-asm"
+        },
+        {
+          "command": "intelEuAsm.gentool.showRegions",
+          "when": "editorLangId == intel-eu-asm"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "intelEuAsm.gentool.check",
+          "when": "editorLangId == intel-eu-asm",
+          "group": "intelEuAsm@0"
+        },
+        {
+          "command": "intelEuAsm.gentool.assembleToFile",
+          "when": "editorLangId == intel-eu-asm",
+          "group": "intelEuAsm@1"
+        },
+        {
+          "command": "intelEuAsm.gentool.showVerbose",
+          "when": "editorLangId == intel-eu-asm",
+          "group": "intelEuAsm@2"
+        },
+        {
+          "command": "intelEuAsm.gentool.showTranslated",
+          "when": "editorLangId == intel-eu-asm",
+          "group": "intelEuAsm@3"
+        },
+        {
+          "command": "intelEuAsm.gentool.showHex",
+          "when": "editorLangId == intel-eu-asm",
+          "group": "intelEuAsm@4"
+        },
+        {
+          "command": "intelEuAsm.gentool.showRegions",
+          "when": "editorLangId == intel-eu-asm",
+          "group": "intelEuAsm@5"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "intelEuAsm.gentool.disassembleFile",
+          "when": "resourceExtname == .bin",
+          "group": "intelEuAsm"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.cjs --platform=node --format=cjs --external:vscode --sourcemap",
+    "watch": "npm run build -- --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run typecheck && node test/tokenize.test.cjs && node --test test/*.test.ts",
+    "vscode:prepublish": "npm run build -- --minify",
+    "package": "vsce package --no-dependencies --allow-missing-repository --no-rewrite-relative-links"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/vscode": "1.90",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
+  },
+  "main": "./out/extension.cjs"
+}

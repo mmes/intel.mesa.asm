@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.2
+
+- The gentool "Beside" views (verbose, translated sends, encoded bytes) now
+  keep the original's line numbers: each instruction is re-printed on the line
+  it came from, and headers, comments, labels and blank lines stay in place.
+- A "Beside" view scrolls together with the listing it was made from.
+
 ## 0.6.1
 
 First release.

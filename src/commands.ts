@@ -3,10 +3,10 @@
 
 import * as vscode from 'vscode';
 import {
-  assemble, DEFAULT_PLATFORM, disassemble, GentoolError, instructionText, regionDiagram,
+  assemble, DEFAULT_PLATFORM, disassemble, GentoolError, instructionText, overlayDisassembly, regionDiagram,
   type DisassemblyOptions, type Gentool,
 } from './backend/gentool.ts';
-import type { ParsedDocument } from './parser/model.ts';
+import type { ParsedDocument, Shader } from './parser/model.ts';
 import { shaderAt } from './parser/parse.ts';
 import type { Generation } from './platform.ts';
 
@@ -96,7 +96,7 @@ export function registerGentool(context: vscode.ExtensionContext, documents: Doc
     const lines = document.getText().split(/\r?\n/);
     const parsed = documents.parsed(document);
     const found: vscode.Diagnostic[] = [];
-    const binaries: { header?: string; binary: Buffer }[] = [];
+    const binaries: { shader: Shader; binary: Buffer }[] = [];
     for (const shader of parsed.shaders) {
       if (!shader.instructions.length) continue;
       const result = await assemble(tool, lines, parsed, shader);
@@ -107,10 +107,7 @@ export function registerGentool(context: vscode.ExtensionContext, documents: Doc
         found.push(diagnostic);
       }
       if (result.binary) {
-        binaries.push({
-          binary: result.binary,
-          ...(shader.headerLine === undefined ? {} : { header: lines[shader.headerLine] }),
-        });
+        binaries.push({ shader, binary: result.binary });
       }
     }
     diagnostics.set(document.uri, found);
@@ -151,9 +148,47 @@ export function registerGentool(context: vscode.ExtensionContext, documents: Doc
     if (target) await vscode.workspace.fs.writeFile(target, binaries[0].binary);
   };
 
-  const showListing = async (text: string) => {
+  const showListing = async (text: string): Promise<vscode.TextEditor> => {
     const document = await vscode.workspace.openTextDocument({ language: documents.language, content: text });
-    await vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.Beside, preview: false });
+    return vscode.window.showTextDocument(document, { viewColumn: vscode.ViewColumn.Beside, preview: false });
+  };
+
+  // Pairs of editors that scroll together: a listing and a re-print of it with the same line count.
+  const scrollPartner = new Map<string, string>();
+  // A reveal we made comes back as a scroll event from the partner; ignore those for a moment.
+  const quietUntil = new Map<string, number>();
+  const SCROLL_ECHO_MS = 200;
+
+  const lockScrolling = (a: vscode.TextEditor, b: vscode.TextEditor) => {
+    const [keyA, keyB] = [a.document.uri.toString(), b.document.uri.toString()];
+    // A listing follows only its newest re-print.
+    const previous = scrollPartner.get(keyA);
+    if (previous) scrollPartner.delete(previous);
+    scrollPartner.set(keyA, keyB);
+    scrollPartner.set(keyB, keyA);
+    const top = a.visibleRanges[0]?.start.line ?? 0;
+    quietUntil.set(keyB, Date.now() + SCROLL_ECHO_MS);
+    b.revealRange(new vscode.Range(top, 0, top, 0), vscode.TextEditorRevealType.AtTop);
+  };
+
+  const followScroll = (event: vscode.TextEditorVisibleRangesChangeEvent) => {
+    const key = event.textEditor.document.uri.toString();
+    const partner = scrollPartner.get(key);
+    const top = event.visibleRanges[0]?.start.line;
+    if (!partner || top === undefined || Date.now() < (quietUntil.get(key) ?? 0)) return;
+    for (const other of vscode.window.visibleTextEditors) {
+      if (other.document.uri.toString() !== partner || other.visibleRanges[0]?.start.line === top) continue;
+      quietUntil.set(partner, Date.now() + SCROLL_ECHO_MS);
+      other.revealRange(new vscode.Range(top, 0, top, 0), vscode.TextEditorRevealType.AtTop);
+    }
+  };
+
+  const unlockScrolling = (document: vscode.TextDocument) => {
+    const key = document.uri.toString();
+    const partner = scrollPartner.get(key);
+    if (partner) scrollPartner.delete(partner);
+    scrollPartner.delete(key);
+    quietUntil.delete(key);
   };
 
   // Re-prints the current listing in another of gentool's forms, by assembling it and disassembling the result.
@@ -164,11 +199,30 @@ export function registerGentool(context: vscode.ExtensionContext, documents: Doc
     const binaries = await assembleAll(editor.document, tool);
     if (!binaries) return;
     // The listing is gentool's encoding of the text, which is not byte for byte what the driver emitted.
-    const parts: string[] = [`// Re-assembled by gentool for ${tool.platform}; not the driver's own encoding (no compaction).\n`];
-    for (const { header, binary } of binaries) {
-      parts.push((header ? `${header}\n` : '') + await disassemble(tool, binary, options));
+    const note = `// Re-assembled by gentool for ${tool.platform}; not the driver's own encoding (no compaction).`;
+    const lines = editor.document.getText().split(/\r?\n/);
+
+    // Each instruction goes back on the line it came from, so the view has the
+    // original's line numbers and can scroll with it.
+    const aligned = [...lines];
+    const plain: string[] = [];
+    let matched = true;
+    for (const { shader, binary } of binaries) {
+      const text = await disassemble(tool, binary, options);
+      plain.push((shader.headerLine === undefined ? '' : `${lines[shader.headerLine]}\n`) + text);
+      const overlay = overlayDisassembly(lines, shader, text);
+      if (overlay) aligned.splice(shader.startLine, overlay.length, ...overlay);
+      else matched = false;
     }
-    await showListing(parts.join('\n'));
+
+    if (matched) {
+      const view = await showListing([...aligned, note].join('\n'));
+      lockScrolling(editor, view);
+    } else {
+      await showListing([`${note}\n`, ...plain].join('\n'));
+      void vscode.window.showInformationMessage(
+        'gentool\'s output did not match the listing instruction for instruction, so the view is not scroll-locked.');
+    }
   };
 
   const disassembleFile = async (uri?: vscode.Uri) => {
@@ -213,6 +267,10 @@ export function registerGentool(context: vscode.ExtensionContext, documents: Doc
     vscode.commands.registerCommand('intelEuAsm.gentool.select', guarded(async () => { await selectGentool(); })),
     // gentool's verdict is about the text as it was; drop it once the text changes.
     vscode.workspace.onDidChangeTextDocument((e) => diagnostics.delete(e.document.uri)),
-    vscode.workspace.onDidCloseTextDocument((document) => diagnostics.delete(document.uri)),
+    vscode.workspace.onDidCloseTextDocument((document) => {
+      diagnostics.delete(document.uri);
+      unlockScrolling(document);
+    }),
+    vscode.window.onDidChangeTextEditorVisibleRanges(followScroll),
   );
 }

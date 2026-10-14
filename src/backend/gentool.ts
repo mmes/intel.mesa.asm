@@ -3,6 +3,7 @@
 
 import { execFile } from 'node:child_process';
 import type { ParsedDocument, Shader } from '../parser/model.ts';
+import { parseDocument } from '../parser/parse.ts';
 import type { Generation } from '../platform.ts';
 
 /** The gentool platform to use for each generation when none is configured. */
@@ -149,6 +150,44 @@ export async function disassemble(tool: Gentool, binary: Buffer, options: Disass
   const result = await run(tool, ['disasm', ...flags, '-i', '-', '-o', '-'], binary);
   if (!result.ok) throw new GentoolError('failed', result.stderr.replace(/^ERROR:\s*/, '') || 'gentool disasm failed.');
   return result.stdout.toString();
+}
+
+/**
+ * Lays a re-disassembled shader over the lines of the original: each
+ * instruction line is replaced by gentool's print of the same instruction, and
+ * every other line (header, comments, labels, blanks) stays where it is. The
+ * result has the original's line count, so the two can be read side by side
+ * and scrolled together.
+ *
+ * Returns the replacement for lines `startLine..endLine` of the shader, or
+ * undefined when the disassembly does not correspond instruction for
+ * instruction.
+ */
+export function overlayDisassembly(
+  lines: readonly string[], shader: Shader, disassembly: string,
+): string[] | undefined {
+  const printedLines = disassembly.split('\n');
+  const [printed] = parseDocument(printedLines).shaders;
+  if (!printed || printed.instructions.length !== shader.instructions.length) return undefined;
+
+  // gentool numbers labels itself, in address order. Carry the original's names over.
+  const inOrder = (s: Shader) => [...s.labels.values()].sort((a, b) => a.span.line - b.span.line).map((l) => l.name);
+  const theirs = inOrder(printed);
+  const ours = inOrder(shader);
+  if (theirs.length !== ours.length) return undefined;
+  const rename = new Map(theirs.map((name, i) => [name, ours[i]]));
+
+  const out = lines.slice(shader.startLine, shader.endLine + 1);
+  shader.instructions.forEach((inst, i) => {
+    const theirInst = printed.instructions[i];
+    let text = printedLines[theirInst.line].trimEnd();
+    // Rename from the right so earlier spans stay valid.
+    for (const label of [...theirInst.labels].reverse()) {
+      text = text.slice(0, label.span.start) + (rename.get(label.name) ?? label.name) + text.slice(label.span.end);
+    }
+    out[inst.line - shader.startLine] = text;
+  });
+  return out;
 }
 
 /**

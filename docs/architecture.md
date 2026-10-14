@@ -238,7 +238,10 @@ listed; one run with no path configured offers a file dialog to set it.
 only Node's API, so it is tested by running the real binary. It feeds gentool
 through stdin and reads stdout, so no temporary files are written. A dump is
 first reduced to what `gentool asm` accepts, line for line, so that the line
-numbers in its errors need no translation. `src/commands.ts` wraps that in
+numbers in its errors need no translation. A re-printed listing goes the other
+way: gentool's output is laid back over the original line by line, so the
+view keeps the original's line numbers and the two editors can be scrolled as
+one. `src/commands.ts` wraps that in
 commands, diagnostics and the hover.
 
 **The simulator** is the long-term goal: step through a listing and watch

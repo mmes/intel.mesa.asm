@@ -84,6 +84,12 @@ is empty one chosen from `intelEuAsm.generation` (`ptl` for the default `xe3`).
 It has to match where the dump came from: a Xe3 listing does not validate as
 `nvl`, which this Mesa treats as Xe3P.
 
+A "Beside" view has the same line numbers as the listing it was made from:
+each instruction is re-printed on its own line and everything else (header,
+comments, labels, blank lines) is kept in place. The two editors scroll
+together until one is closed. Folding lines in one of them, or editing either,
+breaks the correspondence.
+
 The "Beside" views are produced by assembling the text and disassembling the
 result, so they show gentool's encoding of the listing, not the driver's
 bytes. They lose compaction, and with the Mesa build tested they differ from

@@ -2,7 +2,7 @@
   "name": "intel-mesa-asm",
   "displayName": "Intel EU Assembly (Mesa)",
   "description": "Syntax colouring, navigation, column alignment, hover explanations and a gentool bridge for Intel GPU (EU) assembly dumps printed by Mesa's brw and jay back ends.",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "type": "module",
   "publisher": "mmes",
   "private": true,

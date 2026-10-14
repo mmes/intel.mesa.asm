@@ -7,7 +7,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import {
-  assemble, disassemble, GentoolError, instructionText, parseErrors, prepareForAssembly, regionDiagram, type Gentool,
+  assemble, disassemble, GentoolError, instructionText, overlayDisassembly, parseErrors, prepareForAssembly, regionDiagram,
+  type Gentool,
 } from '../src/backend/gentool.ts';
 import { parseDocument } from '../src/parser/parse.ts';
 
@@ -75,6 +76,38 @@ test('gentool errors are placed on the lines they are about', () => {
   assert.deepEqual(parseErrors('something unexpected', shader), [{ line: 0, message: 'something unexpected' }]);
 });
 
+test('a re-print is laid over the original line for line', () => {
+  const lines = [
+    'Native code for unnamed compute shader  (src_hash 0x1)',
+    '',
+    '// 78 cycles',
+    'L7: // 260 cycles',
+    '        send.ugm (16)             r6      r2     null:0  0x00000000  0x62100500   {$1}  // wr:1+0, rd:1; load',
+    '',
+    'L9:',
+    '        while (16)                            L7',
+    'trailing text',
+  ];
+  const [shader] = parseDocument(lines).shaders;
+  // What gentool prints: its own label numbers, its own spacing, no comments or blank lines kept.
+  const printed = [
+    'L0:',
+    '        load.ugm.d32.a32.bti[0] (16) r6:1  r2:1                                   {$1}',
+    'L1:',
+    '        while (16)                            L0',
+    '',
+  ].join('\n');
+  assert.deepEqual(overlayDisassembly(lines, shader, printed), [
+    lines[0], '', lines[2], lines[3],
+    '        load.ugm.d32.a32.bti[0] (16) r6:1  r2:1                                   {$1}',
+    '', 'L9:',
+    '        while (16)                            L7',
+  ]);
+  // One instruction short, or a label short: no line-for-line correspondence.
+  assert.equal(overlayDisassembly(lines, shader, printed.replace(/^.*load.*\n/m, '')), undefined);
+  assert.equal(overlayDisassembly(lines, shader, printed.replace('L1:\n', '')), undefined);
+});
+
 test('a missing gentool is reported as such', async () => {
   const lines = ['        mov (16)   r1   r2'];
   const doc = parseDocument(lines);
@@ -123,6 +156,18 @@ for (const file of samples) {
       const parsed = parseDocument(text);
       assert.equal(parsed.shaders[0].instructions.length, doc.shaders[0].instructions.length, JSON.stringify(options));
       assert.ok(parsed.shaders[0].instructions.every((i) => i.ok), JSON.stringify(options));
+    }
+
+    // Each form can be laid over the original with instructions and labels on their own lines.
+    for (const options of [{ verbose: true }, { translatedSends: true }, { hex: true }]) {
+      const overlay = overlayDisassembly(lines, doc.shaders[0], await disassemble(tool!, result.binary!, options));
+      assert.ok(overlay, JSON.stringify(options));
+      const view = parseDocument([...lines.slice(0, doc.shaders[0].startLine), ...overlay]);
+      assert.equal(overlay.length, doc.shaders[0].endLine - doc.shaders[0].startLine + 1);
+      assert.deepEqual(view.shaders[0].instructions.map((i) => i.line), doc.shaders[0].instructions.map((i) => i.line));
+      assert.deepEqual([...view.shaders[0].labels].map(([name, l]) => [name, l.span.line]),
+        [...doc.shaders[0].labels].map(([name, l]) => [name, l.span.line]));
+      assert.ok(view.shaders[0].instructions.every((i) => i.labels.every((l) => view.shaders[0].labels.has(l.name))));
     }
   });
 }
